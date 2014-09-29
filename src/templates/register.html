@@ -1,0 +1,25 @@
+<a href="?">Tillbaka</a>
+
+<h2>Ej Inloggad, Registrerar användare</h2>
+
+<form method="post">
+    <fieldset>
+        <legend>Registrera ny användare - Skriv in användarnamn och lösenord</legend>
+        {? if error:
+        <p>
+            {{ error }}
+        </p>
+        ?}
+        <label>
+            Namn : <input {% input username %} /><p></p>
+        </label>
+        <label>
+            Lösenord : <input type="password" {% input password %} /><p></p>
+        </label>
+        <label>
+            Repetera Lösenord : <input type="password" {% input passwordRepeat %} /><p></p>
+        </label>
+        Skicka :
+        <input type="submit" {% input loginButton %} value="Registrera" />
+    </fieldset>
+</form>

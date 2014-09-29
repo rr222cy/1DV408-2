@@ -9,6 +9,7 @@ use services\ClientService;
 use services\SessionService;
 use views\LoginView;
 use views\UserView;
+use views\RegisterView;
 
 class LoginController {
     private $user;
@@ -21,11 +22,15 @@ class LoginController {
      */
     private $userView;
 
-    public function __construct(LoginView $loginView, UserView $userView, User $user,
+    private $registerView;
+
+    public function __construct(LoginView $loginView, RegisterView $registerView, UserView $userView, User $user,
                                 ClientService $clientService, SessionService $sessionService) {
         $this->loginView = $loginView;
         $this->userView = $userView;
         $this->user = $user;
+
+        $this->registerView = $registerView;
 
         $sessionService->setClientIdentifier($clientService->getClientIdentifier());
     }
@@ -66,10 +71,21 @@ class LoginController {
     }
 
     private function handleOutput() {
-        if ($this->user->isLoggedIn()) {
-            return $this->userView;
-        } else {
-            return $this->loginView;
+
+        if(isset($_GET["register"]))
+        {
+            return $this->registerView;
+        }
+        else
+        {
+            if ($this->user->isLoggedIn())
+            {
+                return $this->userView;
+            }
+            else
+            {
+                return $this->loginView;
+            }
         }
     }
 
