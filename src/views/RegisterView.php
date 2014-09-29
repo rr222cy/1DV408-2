@@ -93,6 +93,10 @@ class RegisterView extends View {
             {
                 $error .= "  -   Lösenorden matchar inte  ";
             }
+            if(strpbrk($username, '<>""./'))
+            {
+                $error .= "  -   Användarnamnet innehåller ogiltiga tecken  ";
+            }
 
             $this->setError($error);
         }
