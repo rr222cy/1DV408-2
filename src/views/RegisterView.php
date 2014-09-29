@@ -27,16 +27,45 @@ class RegisterView extends View {
         $inputDirective->registerInput($this, 'username');
         $inputDirective->registerInput($this, 'password');
         $inputDirective->registerInput($this, 'passwordRepeat');
+        $inputDirective->registerInput($this, 'registerButton');
 
         $this->baseView = $baseView;
         $this->user =$user;
     }
 
     /**
+     * @return string
+     */
+    public function getUsername() {
+        return $this->variables['username'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword() {
+        return $this->variables['password'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordRepeat() {
+        return $this->variables['passwordRepeat'];
+    }
+
+    /**
      * @return bool
      */
-    public function isAuthenticatingUser() {
-        return isset($this->variables['logoutButton']);
+    public function isAddingUser() {
+        return isset($this->variables['registerButton']);
+    }
+
+    /**
+     * @param string $error
+     */
+    private function setError($error) {
+        $this->setVariable('error', $error);
     }
 
     public function setRegisterSucceeded() {
@@ -45,5 +74,24 @@ class RegisterView extends View {
 
     public function onRender() {
         $this->baseView->setTitle('Registrering av ny användare');
+
+        if ($this->isAddingUser())
+        {
+            $username = $this->getUsername();
+            $password = $this->getPassword();
+            $passwordRepeat = $this->getPasswordRepeat();
+            $error = "";
+            if (strlen($username) < 3) {
+                $error .= "Användarnamnet har för få tecken. Minst 3 tecken  -   ";
+                //$this->setError('');
+            }
+            if (strlen($password) < 6)
+            {
+                $error .= "Lösenorden har för få tecken. Minst 6 tecken  ";
+                //$this->setError('');
+            }
+
+            $this->setError($error);
+        }
     }
 }
