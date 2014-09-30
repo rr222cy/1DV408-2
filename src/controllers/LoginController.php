@@ -21,21 +21,23 @@ class LoginController {
      * @var UserView
      */
     private $userView;
-
+    /**
+     * @var RegisterView
+     */
     private $registerView;
 
     public function __construct(LoginView $loginView, RegisterView $registerView, UserView $userView, User $user,
                                 ClientService $clientService, SessionService $sessionService) {
+        $this->registerView = $registerView;
         $this->loginView = $loginView;
         $this->userView = $userView;
         $this->user = $user;
-
-        $this->registerView = $registerView;
 
         $sessionService->setClientIdentifier($clientService->getClientIdentifier());
     }
 
     private function handleInput() {
+
         if (!$this->user->isLoggedIn() and $this->loginView->isUserRemembered()) {
             if ($this->user->logInWithKey($this->loginView->getRememberedKey())) {
                 $this->userView->setLoginSucceededRemembered();
@@ -45,14 +47,34 @@ class LoginController {
             }
         }
 
-        if ($this->user->isLoggedIn()) {
-            if ($this->userView->isAuthenticatingUser()) {
+        if ($this->user->isLoggedIn())
+        {
+            if ($this->userView->isAuthenticatingUser())
+            {
                 $this->user->logOut();
                 $this->loginView->forgetUser();
                 $this->loginView->setHaveLoggedOut();
             }
-        } else {
-            if ($this->loginView->isAuthenticatingUser()) {
+        }
+        else
+        {
+            // If a user is to be added
+            if ($this->registerView->isAddingUser())
+            {
+                $username = $this->registerView->getUsername();
+                if($username == $this->user->getUsername())
+                {
+                    $this->registerView->setUsernameNotAvailableError();
+                    
+                }
+                else
+                {
+                    echo "all is good";
+                }
+             }
+            // If a user is to be logged in
+            elseif ($this->loginView->isAuthenticatingUser())
+            {
                 $username = $this->loginView->getUsername();
                 $password = $this->loginView->getPassword();
 
