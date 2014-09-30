@@ -65,11 +65,11 @@ class LoginController {
                 if($username == $this->user->getUsername())
                 {
                     $this->registerView->setUsernameNotAvailableError();
-                    
+
                 }
                 else
                 {
-                    echo "all is good";
+
                 }
              }
             // If a user is to be logged in

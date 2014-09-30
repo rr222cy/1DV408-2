@@ -88,21 +88,25 @@ class RegisterView extends View {
 
             if (strlen($username) < 3) {
                 $error .= "  -   Användarnamnet har för få tecken. Minst 3 tecken";
+                $this->setError($error);
             }
             if (strlen($password) < 6)
             {
-                $error .= "  -   Lösenorden har för få tecken. Minst 6 tecken  ";;
+                $error .= "  -   Lösenorden har för få tecken. Minst 6 tecken  ";
+                $this->setError($error);
             }
             if ($password != $passwordRepeat)
             {
                 $error .= "  -   Lösenorden matchar inte  ";
+                $this->setError($error);
             }
             if(strpbrk($username, '<>""./'))
             {
                 $error .= "  -   Användarnamnet innehåller ogiltiga tecken  ";
+                $this->setError($error);
             }
 
-            $this->setError($error);
+
         }
     }
 }
