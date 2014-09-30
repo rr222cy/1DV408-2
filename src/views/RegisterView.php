@@ -76,35 +76,45 @@ class RegisterView extends View {
         $this->setVariable('status', 'Registrering av ny användare lyckades');
     }
 
+    public function validateUser() {
+        $username = $this->getUsername();
+        $password = $this->getPassword();
+        $passwordRepeat = $this->getPasswordRepeat();
+        $error = "";
+
+        if (strlen($username) < 3) {
+            $error .= "  -   Användarnamnet har för få tecken. Minst 3 tecken";
+            $this->setError($error);
+        }
+        if (strlen($password) < 6)
+        {
+            $error .= "  -   Lösenorden har för få tecken. Minst 6 tecken  ";
+            $this->setError($error);
+        }
+        if ($password != $passwordRepeat)
+        {
+            $error .= "  -   Lösenorden matchar inte  ";
+            $this->setError($error);
+        }
+        if(strpbrk($username, '<>""./'))
+        {
+            $error .= "  -   Användarnamnet innehåller ogiltiga tecken  ";
+            $this->setError($error);
+        }
+        if($username = $this->getUsername() == $this->user->getUsername())
+        {
+            //$this->setUsernameNotAvailableError();
+            $error .= "  -   Användarnamnet är redan upptaget  ";
+            $this->setError($error);
+        }
+    }
+
     public function onRender() {
         $this->baseView->setTitle('Registrering av ny användare');
 
         if ($this->isAddingUser())
         {
-            $username = $this->getUsername();
-            $password = $this->getPassword();
-            $passwordRepeat = $this->getPasswordRepeat();
-            $error = "";
 
-            if (strlen($username) < 3) {
-                $error .= "  -   Användarnamnet har för få tecken. Minst 3 tecken";
-                $this->setError($error);
-            }
-            if (strlen($password) < 6)
-            {
-                $error .= "  -   Lösenorden har för få tecken. Minst 6 tecken  ";
-                $this->setError($error);
-            }
-            if ($password != $passwordRepeat)
-            {
-                $error .= "  -   Lösenorden matchar inte  ";
-                $this->setError($error);
-            }
-            if(strpbrk($username, '<>""./'))
-            {
-                $error .= "  -   Användarnamnet innehåller ogiltiga tecken  ";
-                $this->setError($error);
-            }
 
 
         }

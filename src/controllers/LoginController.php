@@ -61,16 +61,9 @@ class LoginController {
             // If a user is to be added
             if ($this->registerView->isAddingUser())
             {
-                $username = $this->registerView->getUsername();
-                if($username == $this->user->getUsername())
-                {
-                    $this->registerView->setUsernameNotAvailableError();
+                $this->registerView->validateUser();
 
-                }
-                else
-                {
 
-                }
              }
             // If a user is to be logged in
             elseif ($this->loginView->isAuthenticatingUser())
