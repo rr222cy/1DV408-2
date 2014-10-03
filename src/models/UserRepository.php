@@ -26,4 +26,23 @@ class UserRepository extends Repository {
         $query = $db->prepare($sql);
         $query->execute($params);
     }
+
+    public function get(User $user) {
+        $db = $this->connection();
+
+        $sql = "SELECT * FROM $this->dbTable WHERE " . self::$username . " = ?";
+        $params = array($user->getUsername());
+
+        $query = $db->prepare($sql);
+        $query->execute($params);
+
+        $result = $query->fetch();
+
+        if($result)
+        {
+            return $result;
+        }
+
+        return NULL;
+    }
 }
