@@ -14,5 +14,6 @@ require_once('src/views/DateView.php');
 require_once('src/views/LoginView.php');
 require_once('src/views/RegisterView.php');
 require_once('src/views/UserView.php');
+require_once('src/views/MessagesView.php');
 require_once('src/viewServices/ClientService.php');
 require_once('src/viewServices/CookieService.php');

@@ -9,6 +9,7 @@ use models\UserRepository;
 use services\ClientService;
 use services\SessionService;
 use views\LoginView;
+use views\MessageView;
 use views\UserView;
 use views\RegisterView;
 
@@ -67,6 +68,7 @@ class LoginController {
             {
                 $this->registerView->validateUser();
 
+                //$this->userRepository->add($this->registerView->getUsername(), $this->registerView->getPassword());
 
              }
             // If a user is to be logged in
@@ -75,7 +77,6 @@ class LoginController {
                 $username = $this->loginView->getUsername();
                 $password = $this->loginView->getPassword();
 
-                //$this->user->setUser($username, $password);
                 $this->userRepository->get($username);
 
 
@@ -94,7 +95,6 @@ class LoginController {
     }
 
     private function handleOutput() {
-
         if(isset($_GET["register"]))
         {
             return $this->registerView;

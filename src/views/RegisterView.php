@@ -68,12 +68,6 @@ class RegisterView extends View {
         $this->setVariable('error', $error);
     }
 
-    /*
-    public function setUsernameNotAvailableError() {
-        $this->setError("Användarnamnet är redan upptaget");
-    }
-    */
-
     public function setRegisterSucceeded() {
         $this->setVariable('status', 'Registrering av ny användare lyckades');
     }
@@ -105,10 +99,10 @@ class RegisterView extends View {
         }
         if($username = $this->getUsername() == $this->user->getUsername())
         {
-            //$this->setUsernameNotAvailableError();
             $error .= "  -   Användarnamnet är redan upptaget  ";
             $this->setError($error);
         }
+
     }
 
     public function onRender() {

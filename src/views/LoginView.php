@@ -48,6 +48,10 @@ class LoginView extends View {
         return $this->variables['username'];
     }
 
+    public function setUsername($username) {
+        return $this->variables['username'] = $username;
+    }
+
     /**
      * @return string
      */
@@ -109,6 +113,14 @@ class LoginView extends View {
 
     public function onRender() {
         $this->baseView->setTitle('Inte inloggad');
+
+        /**
+        if(isset($_GET['Signup']))
+        {
+            $this->setUsername("TESTAR");
+            $this->setError("DU HAR REGGAT DIG");
+        }
+         * */
 
         if ($this->isAuthenticatingUser()) {
             $username = $this->getUsername();

@@ -20,11 +20,11 @@ class UserRepository extends Repository {
      * @param User $user - a user object as input parameter from a view.
      * Adding a new user to the database, using parameters to prevent SQL-injections.
      */
-    public function add(User $user) {
+    public function add($username, $password) {
         $db = $this->connection();
 
         $sql = "INSERT INTO $this->dbTable(" . self::$username . ", " . self::$password . ") VALUES (?, ?)";
-        $params = array($user->getUsername(), $user->getPassword());
+        $params = array($username, $password);
 
         $query = $db->prepare($sql);
         $query->execute($params);

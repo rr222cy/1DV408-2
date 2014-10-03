@@ -13,12 +13,8 @@ class User {
      */
     private $session;
 
-    //private $username = 'Admin';
-    //private $password = 'Password';
-
     private $username;
     private $password;
-    private $user;
 
     public function __construct(SessionService $session) {
         $this->session = $session;
@@ -42,6 +38,15 @@ class User {
     public function setUser($username, $password) {
         $this->username = $username;
         $this->password = $password;
+    }
+
+    /**
+     * Sets the login-key for a user
+     */
+
+    public function setKey()
+    {
+
     }
 
     /**
