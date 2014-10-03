@@ -51,7 +51,6 @@ class UserView extends View {
 
     public function onRender() {
         $this->baseView->setTitle('Inloggad');
-
-        $this->setVariable('username', $this->user->getUsername());
+        $this->setVariable('username', $_SESSION["Username"]);
     }
 }

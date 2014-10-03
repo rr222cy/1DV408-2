@@ -5,6 +5,7 @@ namespace models;
 require_once('src/loginSystem.php');
 
 use services\SessionService;
+use models\UserRepository;
 
 class User {
     private static $sessionKey = 'User::username';
@@ -12,9 +13,11 @@ class User {
      * @var SessionService
      */
     private $session;
+    private $userRepository;
 
     private $username;
     private $password;
+    private $key;
 
     public function __construct(SessionService $session) {
         $this->session = $session;
@@ -35,9 +38,10 @@ class User {
      * Sets values for username and password
      */
 
-    public function setUser($username, $password) {
+    public function setUser($username, $password, $key) {
         $this->username = $username;
         $this->password = $password;
+        $this->key = $key;
     }
 
     /**
@@ -53,7 +57,7 @@ class User {
      * @return string
      */
     public function getKey() {
-        return ':P';
+        return $this->key;
     }
 
     /**

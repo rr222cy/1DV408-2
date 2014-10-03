@@ -44,10 +44,21 @@ class LoginController {
 
     private function handleInput() {
 
-        if (!$this->user->isLoggedIn() and $this->loginView->isUserRemembered()) {
-            if ($this->user->logInWithKey($this->loginView->getRememberedKey())) {
-                $this->userView->setLoginSucceededRemembered();
-            } else {
+        if (!$this->user->isLoggedIn() and $this->loginView->isUserRemembered())
+        {
+            //if ($this->user->logInWithKey($this->loginView->getRememberedKey()))
+            //{
+                $result = $this->userRepository->getKey($this->loginView->getRememberedKey());
+                if($result != NULL)
+                {
+                    $this->user->logInWithKey($this->loginView->getRememberedKey());
+
+                    $_SESSION["Username"] = $result["Username"];
+                    $this->userView->setLoginSucceededRemembered();
+                }
+            //}
+            else
+            {
                 $this->loginView->forgetUser();
                 $this->loginView->setLoginErrorRemembered();
             }
@@ -88,7 +99,9 @@ class LoginController {
                     if ($this->loginView->shouldUserBeRemembered()) {
                         $this->loginView->rememberUser();
                         $this->userView->setLoginSucceededRemembering();
+                        $_SESSION["Username"] = $username;
                     } else {
+                        $_SESSION["Username"] = $username;
                         $this->userView->setLoginSucceeded();
                     }
                 } else {
