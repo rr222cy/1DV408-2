@@ -99,6 +99,10 @@ class LoginView extends View {
         $this->setError('Felaktigt användarnamn och/eller lösenord');
     }
 
+    public function setSignupMessage() {
+        $this->setError('Registrering av ny användare lyckades');
+    }
+
     public function setLoginErrorRemembered() {
         $this->setError('Felaktig information i cookie');
     }

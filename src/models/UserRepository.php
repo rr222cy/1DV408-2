@@ -24,7 +24,7 @@ class UserRepository extends Repository {
         $db = $this->connection();
 
         $sql = "INSERT INTO $this->dbTable(" . self::$username . ", " . self::$password . ") VALUES (?, ?)";
-        $params = array($username, $password);
+        $params = array($username, md5($password));
 
         $query = $db->prepare($sql);
         $query->execute($params);

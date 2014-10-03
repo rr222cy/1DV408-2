@@ -9,7 +9,6 @@ use models\UserRepository;
 use services\ClientService;
 use services\SessionService;
 use views\LoginView;
-use views\MessageView;
 use views\UserView;
 use views\RegisterView;
 
@@ -28,6 +27,8 @@ class LoginController {
      * @var RegisterView
      */
     private $registerView;
+
+    private $signup = false;
 
     public function __construct(UserRepository $userRepository, LoginView $loginView, RegisterView $registerView, UserView $userView, User $user,
                                 ClientService $clientService, SessionService $sessionService) {
@@ -68,8 +69,10 @@ class LoginController {
             {
                 $this->registerView->validateUser();
 
-                //$this->userRepository->add($this->registerView->getUsername(), $this->registerView->getPassword());
+                $this->userRepository->add($this->registerView->getUsername(), $this->registerView->getPassword());
 
+                $this->signup = true;
+                $this->loginView->setSignupMessage();
              }
             // If a user is to be logged in
             elseif ($this->loginView->isAuthenticatingUser())
@@ -80,7 +83,7 @@ class LoginController {
                 $this->userRepository->get($username);
 
 
-                if ($this->user->logIn($username, $password)) {
+                if ($this->user->logIn($username, md5($password))) {
                     if ($this->loginView->shouldUserBeRemembered()) {
                         $this->loginView->rememberUser();
                         $this->userView->setLoginSucceededRemembering();
@@ -92,10 +95,11 @@ class LoginController {
                 }
             }
         }
+
     }
 
     private function handleOutput() {
-        if(isset($_GET["register"]))
+        if(isset($_GET["register"]) && $this->signup === false)
         {
             return $this->registerView;
         }
