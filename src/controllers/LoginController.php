@@ -46,18 +46,16 @@ class LoginController {
 
         if (!$this->user->isLoggedIn() and $this->loginView->isUserRemembered())
         {
-            //if ($this->user->logInWithKey($this->loginView->getRememberedKey()))
-            //{
-                $result = $this->userRepository->getKey($this->loginView->getRememberedKey());
-                if($result != NULL)
-                {
-                    $this->user->logInWithKey($this->loginView->getRememberedKey());
+            $result = $this->userRepository->getKey($this->loginView->getRememberedKey());
 
-                    $_SESSION["Username"] = $result["Username"];
-                    $this->userView->setLoginSucceededRemembered();
-                }
-            //}
-            else
+            if($result != NULL)
+            {
+                $this->user->logInWithKey($this->loginView->getRememberedKey());
+
+                $_SESSION["Username"] = $result["Username"];
+                $this->userView->setLoginSucceededRemembered();
+           }
+           else
             {
                 $this->loginView->forgetUser();
                 $this->loginView->setLoginErrorRemembered();
