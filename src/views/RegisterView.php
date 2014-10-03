@@ -68,9 +68,11 @@ class RegisterView extends View {
         $this->setVariable('error', $error);
     }
 
+    /*
     public function setUsernameNotAvailableError() {
         $this->setError("Användarnamnet är redan upptaget");
     }
+    */
 
     public function setRegisterSucceeded() {
         $this->setVariable('status', 'Registrering av ny användare lyckades');

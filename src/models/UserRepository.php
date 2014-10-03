@@ -9,8 +9,11 @@ class UserRepository extends Repository {
     private static $username = "Username";
     private static $password = "Password";
 
-    public function __construct() {
+    private $user;
+
+    public function __construct(User $user) {
         $this->dbTable = "user";
+        $this->user = $user;
     }
 
     /**
@@ -27,11 +30,11 @@ class UserRepository extends Repository {
         $query->execute($params);
     }
 
-    public function get(User $user) {
+    public function get($username) {
         $db = $this->connection();
 
         $sql = "SELECT * FROM $this->dbTable WHERE " . self::$username . " = ?";
-        $params = array($user->getUsername());
+        $params = array($username);
 
         $query = $db->prepare($sql);
         $query->execute($params);
@@ -40,6 +43,8 @@ class UserRepository extends Repository {
 
         if($result)
         {
+            //$user = new \models\User($result[self::$username], $result[self::$password]);
+            $this->user->setUser($result[self::$username], $result[self::$password]);
             return $result;
         }
 

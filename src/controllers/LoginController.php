@@ -5,6 +5,7 @@ namespace controllers;
 require_once('src/loginSystem.php');
 
 use models\User;
+use models\UserRepository;
 use services\ClientService;
 use services\SessionService;
 use views\LoginView;
@@ -12,6 +13,7 @@ use views\UserView;
 use views\RegisterView;
 
 class LoginController {
+    private $userRepository;
     private $user;
     /**
      * @var LoginView
@@ -26,14 +28,16 @@ class LoginController {
      */
     private $registerView;
 
-    public function __construct(LoginView $loginView, RegisterView $registerView, UserView $userView, User $user,
+    public function __construct(UserRepository $userRepository, LoginView $loginView, RegisterView $registerView, UserView $userView, User $user,
                                 ClientService $clientService, SessionService $sessionService) {
         $this->registerView = $registerView;
         $this->loginView = $loginView;
         $this->userView = $userView;
         $this->user = $user;
+        $this->userRepository = $userRepository;
 
         $sessionService->setClientIdentifier($clientService->getClientIdentifier());
+
     }
 
     private function handleInput() {
@@ -70,6 +74,10 @@ class LoginController {
             {
                 $username = $this->loginView->getUsername();
                 $password = $this->loginView->getPassword();
+
+                //$this->user->setUser($username, $password);
+                $this->userRepository->get($username);
+
 
                 if ($this->user->logIn($username, $password)) {
                     if ($this->loginView->shouldUserBeRemembered()) {
