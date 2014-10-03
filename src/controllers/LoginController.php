@@ -67,12 +67,13 @@ class LoginController {
             // If a user is to be added
             if ($this->registerView->isAddingUser())
             {
-                $this->registerView->validateUser();
+                if($this->registerView->validateUser())
+                {
+                    $this->userRepository->add($this->registerView->getUsername(), $this->registerView->getPassword());
 
-                $this->userRepository->add($this->registerView->getUsername(), $this->registerView->getPassword());
-
-                $this->signup = true;
-                $this->loginView->setSignupMessage();
+                    $this->signup = true;
+                    $this->loginView->setSignupMessage();
+                }
              }
             // If a user is to be logged in
             elseif ($this->loginView->isAuthenticatingUser())

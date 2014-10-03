@@ -118,14 +118,6 @@ class LoginView extends View {
     public function onRender() {
         $this->baseView->setTitle('Inte inloggad');
 
-        /**
-        if(isset($_GET['Signup']))
-        {
-            $this->setUsername("TESTAR");
-            $this->setError("DU HAR REGGAT DIG");
-        }
-         * */
-
         if ($this->isAuthenticatingUser()) {
             $username = $this->getUsername();
             $password = $this->getPassword();
