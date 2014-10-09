@@ -27,7 +27,7 @@ class RegisterView extends View {
         parent::__construct($viewSettings);
 
         $inputDirective->registerInput($this, 'username');
-        $inputDirective->registerInput($this, 'password');
+        $inputDirective->registerInput($this, 'passwordReg');
         $inputDirective->registerInput($this, 'passwordRepeat');
         $inputDirective->registerInput($this, 'registerButton');
 
@@ -47,7 +47,7 @@ class RegisterView extends View {
      * @return string
      */
     public function getPassword() {
-        return $this->variables['password'];
+        return $this->variables['passwordReg'];
     }
 
     /**
@@ -82,22 +82,24 @@ class RegisterView extends View {
 
     public function validateUser() {
         $username = $this->getUsername();
-        $password = $this->getPassword();
+        $passwordReg = $this->getPassword();
         $passwordRepeat = $this->getPasswordRepeat();
         $error = "";
-
-        if (strlen($username) < 3) {
-            $error .= "  -   Användarnamnet har för få tecken. Minst 3 tecken";
-            $this->setError($error);
-            if (strlen($password) < 6)
+        if (strlen($username) < 3 || strlen($passwordReg) < 6)
+        {
+            if (strlen($username) < 3) {
+                $error .= "  -   Användarnamnet har för få tecken. Minst 3 tecken";
+                $this->setError($error);
+            }
+            if (strlen($passwordReg) < 6)
             {
                 $error .= "  -   Lösenorden har för få tecken. Minst 6 tecken  ";
                 $this->setError($error);
-                return false;
             }
             return false;
         }
-        if ($password != $passwordRepeat)
+
+        if ($passwordReg != $passwordRepeat)
         {
             $error .= "  -   Lösenorden matchar inte  ";
             $this->setError($error);
